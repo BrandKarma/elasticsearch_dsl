@@ -1,4 +1,4 @@
-# Social Backend Utilities
+# DSL for elasticsearch
 
 
 ## Testing
