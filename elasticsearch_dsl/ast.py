@@ -108,6 +108,14 @@ class MissingFilter(BaseNode):
         self.null_value = null_value
 
 
+class GeoDistanceFilter(BaseNode):
+    def __init__(self, field_name, center_lat, center_lng, distance_in_km=1):
+        self.field_name = field_name
+        self.center_lat = center_lat
+        self.center_lng = center_lng
+        self.distance_in_km = distance_in_km
+
+
 class TopLevelAggregation(BaseNode):
     def __init__(self, field_name, agg):
         self.field_name = field_name

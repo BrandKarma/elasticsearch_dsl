@@ -277,6 +277,18 @@ class CodeGeneratorVisitor():
             self.cursor["missing"]["null_value"] = False
 
 
+    @v.when(GeoDistanceFilter)
+    def visit(self, node):
+        self.cursor["geo_distance"] = {
+            "distance": "%skm" %node.distance_in_km
+        }
+
+        self.cursor["geo_distance"][node.field_name] = {
+            "lat": self.center_lat,
+            "lon": self.center_lng
+        }
+
+
     @v.when(TopLevelAggregation)
     def visit(self, node):
         self.cursor[node.field_name] = dict()
