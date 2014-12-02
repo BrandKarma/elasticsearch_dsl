@@ -80,6 +80,98 @@ class CodeGeneratorVisitor():
         self.cursor["match_all"] = dict()
 
 
+    @v.when(TermQuery)
+    def visit(self, node):
+        self.cursor["term"] = dict()
+        self.cursor["term"][node.field_name] = node.value
+        self.cursor["term"]["boost"] = node.boost
+
+
+    @v.when(NestedQuery)
+    def visit(self, node):
+        if isinstance(node.queries, list):
+            self.cursor["nested"] = {
+                "path": node.path,
+                "query": [dict() for i in range(0, len(node.filters))]
+            }
+
+            current_cursor = self.cursor
+            for idx, clause in enumerate(node.filters):
+                self.cursor = self.cursor["nested"]["query"][idx]
+                node.filters[idx].accept(self)
+                self.cursor = current_cursor
+        else:
+            self.cursor["nested"] = {
+                "path": node.path,
+                "query": dict()
+            }
+
+            current_cursor = self.cursor
+            self.cursor = self.cursor["nested"]["query"]
+            node.filters.accept(self)
+            self.cursor = current_cursor
+
+
+    @v.when(BoolQuery)
+    def visit(self, node):
+        self.cursor["bool"] = dict()
+
+        current_cursor = self.cursor
+
+        if node.must:
+            if isinstance(node.must, list):
+                self.cursor["bool"]["must"] = [dict() for i in range(0, len(node.must))]
+
+                current_cursor = self.cursor
+                for idx, clause in enumerate(node.must):
+                    self.cursor = self.cursor["bool"]["must"][idx]
+                    node.must[idx].accept(self)
+                    self.cursor = current_cursor
+            else:
+                self.cursor["bool"]["must"] = dict()
+
+                current_cursor = self.cursor
+                self.cursor = self.cursor["bool"]["must"]
+                node.must.accept(self)
+                self.cursor = current_cursor
+
+
+        if node.must_not:
+            if isinstance(node.must_not, list):
+                self.cursor["bool"]["must_not"] = [dict() for i in range(0, len(node.must_not))]
+
+                current_cursor = self.cursor
+                for idx, clause in enumerate(node.must_not):
+                    self.cursor = self.cursor["bool"]["must_not"][idx]
+                    node.must_not[idx].accept(self)
+                    self.cursor = current_cursor
+            else:
+                self.cursor["bool"]["must_not"] = dict()
+
+                current_cursor = self.cursor
+                self.cursor = self.cursor["bool"]["must_not"]
+                node.must_not.accept(self)
+                self.cursor = current_cursor
+
+
+        if node.should:
+            if isinstance(node.should, list):
+                self.cursor["bool"]["should"] = [dict() for i in range(0, len(node.should))]
+
+                current_cursor = self.cursor
+                for idx, clause in enumerate(node.should):
+                    self.cursor = self.cursor["bool"]["should"][idx]
+                    node.should[idx].accept(self)
+                    self.cursor = current_cursor
+            else:
+                self.cursor["bool"]["should"] = dict()
+
+                current_cursor = self.cursor
+                self.cursor = self.cursor["bool"]["should"]
+                node.should.accept(self)
+                self.cursor = current_cursor
+
+
     @v.when(Range)
     def visit(self, node):
         if node.lower_bound:

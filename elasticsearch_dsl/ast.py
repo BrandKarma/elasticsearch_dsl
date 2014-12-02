@@ -36,6 +36,26 @@ class MatchAllQuery(BaseNode):
         pass
 
 
+class TermQuery(BaseNode):
+    def __init__(self, field_name, value, boost=1.0):
+        self.field_name = field_name
+        self.value = value
+        self.boost = boost
+
+
+class NestedQuery(BaseNode):
+    def __init__(self, path, queries):
+        self.path = path
+        self.queries = queries
+
+
+class BoolQuery(BaseNode):
+    def __init__(self, must=None, must_not=None, should=None):
+        self.must = must
+        self.must_not = must_not
+        self.should = should
+
+
 class Range(BaseNode):
     #FIXME: hard-code to half-close range at this moment
     def __init__(self, lower_bound, upper_bound):
