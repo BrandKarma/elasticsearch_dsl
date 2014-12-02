@@ -92,13 +92,13 @@ class CodeGeneratorVisitor():
         if isinstance(node.queries, list):
             self.cursor["nested"] = {
                 "path": node.path,
-                "query": [dict() for i in range(0, len(node.filters))]
+                "query": [dict() for i in range(0, len(node.queries))]
             }
 
             current_cursor = self.cursor
-            for idx, clause in enumerate(node.filters):
+            for idx, clause in enumerate(node.queries):
                 self.cursor = self.cursor["nested"]["query"][idx]
-                node.filters[idx].accept(self)
+                node.queries[idx].accept(self)
                 self.cursor = current_cursor
         else:
             self.cursor["nested"] = {
@@ -108,7 +108,7 @@ class CodeGeneratorVisitor():
 
             current_cursor = self.cursor
             self.cursor = self.cursor["nested"]["query"]
-            node.filters.accept(self)
+            node.queries.accept(self)
             self.cursor = current_cursor
 
 
