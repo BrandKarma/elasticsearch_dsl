@@ -284,8 +284,8 @@ class CodeGeneratorVisitor():
         }
 
         self.cursor["geo_distance"][node.field_name] = {
-            "lat": self.center_lat,
-            "lon": self.center_lng
+            "lat": node.center_lat,
+            "lon": node.center_lng
         }
 
 
