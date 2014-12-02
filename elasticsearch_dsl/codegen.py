@@ -83,8 +83,10 @@ class CodeGeneratorVisitor():
     @v.when(TermQuery)
     def visit(self, node):
         self.cursor["term"] = dict()
-        self.cursor["term"][node.field_name] = node.value
-        self.cursor["term"]["boost"] = node.boost
+        self.cursor["term"][node.field_name] = {
+            "value": node.value,
+            "boost": node.boost
+        }
 
 
     @v.when(NestedQuery)
