@@ -399,6 +399,9 @@ class CodeGeneratorVisitor():
         self.cursor["terms"]["field"] = node.field_name
         self.cursor["terms"]["size"] = node.size
 
+        self.cursor["terms"]["order"] = dict()
+        self.cursor["terms"]["order"][node.order_type] = node.order
+
 
     @v.when(SumAggregation)
     def visit(self, node):

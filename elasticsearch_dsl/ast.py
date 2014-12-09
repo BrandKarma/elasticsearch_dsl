@@ -143,9 +143,11 @@ class TopLevelAggregation(BaseNode):
 
 
 class TermsAggregation(BaseNode):
-    def __init__(self, field_name, size=0):
+    def __init__(self, field_name, size=0, order_type="_count", order="desc"):
         self.field_name = field_name
         self.size = size
+        self.order_type = order_type
+        self.order = order
 
 
 class SumAggregation(BaseNode):
