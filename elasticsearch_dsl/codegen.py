@@ -402,6 +402,9 @@ class CodeGeneratorVisitor():
         self.cursor["terms"]["order"] = dict()
         self.cursor["terms"]["order"][node.order_type] = node.order
 
+        if node.min_doc_count and isinstance(node.min_doc_count, int) and node.min_doc_count >= 0:
+            self.cursor["terms"]["min_doc_count"] = node.min_doc_count
+
 
     @v.when(SumAggregation)
     def visit(self, node):
