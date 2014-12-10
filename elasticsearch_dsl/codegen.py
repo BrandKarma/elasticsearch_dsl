@@ -437,3 +437,18 @@ class CodeGeneratorVisitor():
     def visit(self, node):
         self.cursor["value_count"] = dict()
         self.cursor["value_count"]["field"] = node.field_name
+
+
+    @v.when(NestedAggregation)
+    def visit(self, node):
+        self.cursor["nested"] = dict()
+        self.cursor["nested"]["path"] = node.path
+
+
+        self.cursor["aggs"] = dict()
+        self.cursor["aggs"][node.field_name] = dict()
+
+        current_cursor = self.cursor
+        self.cursor = self.cursor["aggs"][node.field_name]
+        node.agg.accept(self)
+        self.cursor= current_cursor
