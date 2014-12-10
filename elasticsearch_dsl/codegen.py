@@ -450,5 +450,5 @@ class CodeGeneratorVisitor():
 
         current_cursor = self.cursor
         self.cursor = self.cursor["aggs"][node.field_name]
-        node.agg.accept(self)
+        node.sub_agg.accept(self)
         self.cursor= current_cursor

@@ -181,6 +181,7 @@ class ValueAccountAggregation(BaseNode):
 
 
 class NestedAggregation(BaseNode):
-    def __init__(self, field_name, path):
+    def __init__(self, field_name, path, sub_agg):
         self.field_name = field_name
         self.path = path
+        self.sub_agg = sub_agg
