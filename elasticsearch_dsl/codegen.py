@@ -89,6 +89,12 @@ class CodeGeneratorVisitor():
         }
 
 
+    @v.when(TermsQuery)
+    def visit(self, node):
+        self.cursor["terms"] = dict()
+        self.cursor["terms"][node.field_name] = node.values
+
+
     @v.when(NestedQuery)
     def visit(self, node):
         if isinstance(node.queries, list):

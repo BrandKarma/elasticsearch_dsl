@@ -43,6 +43,12 @@ class TermQuery(BaseNode):
         self.boost = boost
 
 
+class TermsQuery(BaseNode):
+    def __init__(self, field_name, values):
+        self.field_name = field_name
+        self.values = values
+
+
 class NestedQuery(BaseNode):
     def __init__(self, path, queries):
         self.path = path
