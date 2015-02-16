@@ -1,0 +1,16 @@
+language: python
+
+python:
+  - "2.7"
+  - "3.4"
+
+install:
+  - pip install tox sphinx
+  - pip install --editable .
+  - pip install
+
+script: tox
+
+notifications:
+  email: false
+  irc: false
