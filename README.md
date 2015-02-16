@@ -1,5 +1,7 @@
 # DSL for elasticsearch
 
+[![Build Status](https://travis-ci.org/BrandKarma/elasticsearch_dsl.svg?branch=master)](https://travis-ci.org/BrandKarma/elasticsearch_dsl)
+
 ## Motivation
 An emerging trend in recent year for software, including mongodb, elasticsearch and Chef, is to expose an JSON interface to accept complex requests. They give up the traditional SQL query and adopt JSON as the text encoding of abstract syntax tree. Therefore, whenever you are making up a request to these services, you are actually hand coding an abstract syntax tree in JSON. Although it is flexible and easy to extend, it is also error prone and hard to maintain. A common solution for this is to write a Domain Specific Language. And with python’s language design, a naive and natural solution is to use Class to denote AST node and Visitor pattern to code-generate the underlying JSON.
 
